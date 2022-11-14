@@ -36,10 +36,10 @@ remotes::install_github("uham-bio/DSBswirl")
 
 ```{r, eval=FALSE}
 # Install all courses (default)
-install_dsb_courses()
+DSBswirl::install_dsb_courses()
 # Install only course DSB-01 (R basics)
-install_dsb_courses(courses = "DSB-01")
+DSBswirl::install_dsb_courses(courses = "DSB-01")
 # Install the course DSB-01, DSB-04, and DSB-05
-install_dsb_courses(courses = c("DSB-01", "DSB-04", "DSB-05"))
+DSBswirl::install_dsb_courses(courses = c("DSB-01", "DSB-04", "DSB-05"))
 ```
 
