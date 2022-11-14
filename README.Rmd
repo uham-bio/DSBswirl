@@ -27,7 +27,8 @@ The following swirl courses (in German) are currently included:
 ## Package installation
 
 ```{r, eval=FALSE}
-
+if (!require("remotes")) install.packages("remotes")
+remotes::install_github("uham-bio/DSBswirl")
 ```
 
 
