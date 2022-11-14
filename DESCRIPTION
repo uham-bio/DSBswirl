@@ -1,0 +1,25 @@
+Package: DSBswirl
+Type: Package
+Title: Swirl courses for the Data Science in Biology program of the UHH
+Version: 0.1.0.9000
+Date: 2022-11-14
+Authors@R: c(person("Saskia", "Otto", email="saskia.a.otto@gmail.com",
+    role=c("aut","cre")))
+Maintainer: Saskia Otto <saskia.a.otto@gmail.com>
+Description: This package contains the swirl courses including an installation function  
+    developed for the DSB (Data Science in Biology) program within the Biology Department 
+    of the University of Hamburg (UHH).
+License: CC BY 4.0
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R(>= 4.1.0)
+Imports:
+    ggplot2 (>= 3.4.0),
+    lubridate,
+    tidyverse,
+    swirl
+Suggests: 
+    ggmap,
+    plotly
+RoxygenNote: 7.2.1
