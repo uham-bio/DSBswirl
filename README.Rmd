@@ -43,3 +43,11 @@ DSBswirl::install_dsb_courses(courses = "DSB-01")
 DSBswirl::install_dsb_courses(courses = c("DSB-01", "DSB-04", "DSB-05"))
 ```
 
+---
+
+<br><br><br>
+Last Update: 06/11/2023
+
+- DSB-02 lecture order modified
+- All courses updated to tidyverse version >= 2.0.0
+- ggmap examples in DSB-04-L15 removed due to connection issues (Google now requires an API key)

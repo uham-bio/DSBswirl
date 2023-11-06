@@ -11,14 +11,14 @@ the biology department of the University of Hamburg (UHH).
 
 The following swirl courses (in German) are currently included:
 
--   DSB-01: Basics in R (R Grundlagen)
--   DSB-02: Data exploration with R (Datenexploration mit R)
--   DSB-03: Data warangling and introduction to tidyverse
-    (Datenaufbereitung oder per Anleitung durchs Tidyversum)
--   DSB-04: Data visualization with ggplot2 (Datenvisualisierung mit
-    ggplot2)
--   DSB-05: Handling of special data types (Handling spezieller
-    Datentypen)
+- DSB-01: Basics in R (R Grundlagen)
+- DSB-02: Data exploration with R (Datenexploration mit R)
+- DSB-03: Data warangling and introduction to tidyverse
+  (Datenaufbereitung oder per Anleitung durchs Tidyversum)
+- DSB-04: Data visualization with ggplot2 (Datenvisualisierung mit
+  ggplot2)
+- DSB-05: Handling of special data types (Handling spezieller
+  Datentypen)
 
 ## Package installation
 
@@ -37,3 +37,12 @@ DSBswirl::install_dsb_courses(courses = "DSB-01")
 # Install the course DSB-01, DSB-04, and DSB-05
 DSBswirl::install_dsb_courses(courses = c("DSB-01", "DSB-04", "DSB-05"))
 ```
+
+------------------------------------------------------------------------
+
+<br><br><br> Last Update: 06/11/2023
+
+- DSB-02 lecture order modified
+- All courses updated to tidyverse version \>= 2.0.0
+- ggmap examples in DSB-04-L15 removed due to connection issues (Google
+  now requires an API key)
