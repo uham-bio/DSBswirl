@@ -22,6 +22,7 @@ The following swirl courses (in German) are currently included:
 - DSB-03: Data warangling and introduction to tidyverse (Datenaufbereitung oder per Anleitung durchs Tidyversum)
 - DSB-04: Data visualization with ggplot2 (Datenvisualisierung mit ggplot2)
 - DSB-05: Handling of special data types (Handling spezieller Datentypen)
+- DSB-06: Advanced R Programming (Fortgeschrittene R Programmierung)
 
 
 ## Package installation
@@ -46,8 +47,7 @@ DSBswirl::install_dsb_courses(courses = c("DSB-01", "DSB-04", "DSB-05"))
 ---
 
 <br><br><br>
-Last Update: 06/11/2023
+Last Update: 05/01/2024
 
-- DSB-02 lecture order modified
-- All courses updated to tidyverse version >= 2.0.0
-- ggmap examples in DSB-04-L15 removed due to connection issues (Google now requires an API key)
+- Added new course DSB-06
+- Fixed bugs in DSB-01, DSB-02, DSB-04 and DSB-05 that caused lesson to crash in cases where user skipped a specific question
