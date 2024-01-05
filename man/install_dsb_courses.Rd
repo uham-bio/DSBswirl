@@ -9,8 +9,8 @@ install_dsb_courses(courses = "all", force = FALSE)
 \arguments{
 \item{courses}{character; single string or vector with the name of the courses to be
 installed. By default, all courses will be installed but you can also select from the
-the following courses: 'DSB-01', 'DSB-02', 'DSB-03', 'DSB-04', 'DSB-05'. See under
-details what topics each course covers.}
+the following courses: 'DSB-01', 'DSB-02', 'DSB-03', 'DSB-04', 'DSB-05', 'DSB-06'.
+See under details what topics each course covers.}
 
 \item{force}{logical; should course installation be forced if the course is already
 installed? The default value is FALSE.}
@@ -18,7 +18,7 @@ installed? The default value is FALSE.}
 \description{
 Install all or a selection of swirl courses developed for the DSB (Data Science in
 Biology) program within the biology department of the University of Hamburg (UHH).
-The package comes currently with five swirl courses that can be installed
+The package comes currently with six swirl courses that can be installed
 using this \code{install_dsb_courses} function.
 }
 \details{
@@ -30,6 +30,7 @@ The following swirl courses can be installed (currently only in German):
     oder per Anleitung durchs Tidyversum)}
   \item{DSB-04}{Data visualization with ggplot2 (Datenvisualisierung mit ggplot2)}
   \item{DSB-05}{Handling of special data types (Handling spezieller Datentypen)}
+  \item{DSB-06}{Advanced R Programming (Fortgeschrittene R Programmierung)}
  }
 }
 \examples{

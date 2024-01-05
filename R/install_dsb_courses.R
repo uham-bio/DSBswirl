@@ -2,13 +2,13 @@
 #'
 #' Install all or a selection of swirl courses developed for the DSB (Data Science in
 #' Biology) program within the biology department of the University of Hamburg (UHH).
-#' The package comes currently with five swirl courses that can be installed
+#' The package comes currently with six swirl courses that can be installed
 #' using this \code{install_dsb_courses} function.
 #'
 #' @param courses character; single string or vector with the name of the courses to be
 #' installed. By default, all courses will be installed but you can also select from the
-#' the following courses: 'DSB-01', 'DSB-02', 'DSB-03', 'DSB-04', 'DSB-05'. See under
-#' details what topics each course covers.
+#' the following courses: 'DSB-01', 'DSB-02', 'DSB-03', 'DSB-04', 'DSB-05', 'DSB-06'.
+#' See under details what topics each course covers.
 #' @param force logical; should course installation be forced if the course is already
 #'   installed? The default value is FALSE.
 #'
