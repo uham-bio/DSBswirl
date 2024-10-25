@@ -37,12 +37,12 @@
 #'
 install_dsb_courses <- function(courses = "all", force = FALSE) {
 
-  current_courses <- c("DSB-01", "DSB-02", "DSB-03", "DSB-04", "DSB-05", "DSB-06")
+  current_courses <- c("DSB-01", "DSB-02", "DSB-03", "DSB-04", "DSB-05", "DSB-06", "Data analysis with R")
   # Validate course selection
   if (!all(courses %in% c("all", current_courses))) {
     stop(paste0("Choose 'all' courses or provide a single character or vector ",
       "with one of the following courses: ",
-      "'DSB-01', 'DSB-02', 'DSB-03', 'DSB-04', 'DSB-05', 'DSB-06'. ",
+      "'DSB-01', 'DSB-02', 'DSB-03', 'DSB-04', 'DSB-05', 'DSB-06', 'Data analysis with R'. ",
       "For more info see the functions' documentation.")
     )
   }
@@ -57,7 +57,8 @@ install_dsb_courses <- function(courses = "all", force = FALSE) {
     "DSB-03-Datenaufbereitung_oder_per_Anleitung_durchs_Tidyversum.swc",
     "DSB-04-Datenvisualisierung_mit_ggplot2.swc",
     "DSB-05-Handling_spezieller_Datentypen.swc",
-    "DSB-06-Fortgeschrittene_R_Programmierung.swc"
+    "DSB-06-Fortgeschrittene_R_Programmierung.swc",
+    "Data_analysis_with_R.swc"
   )
   n <- length(courses)
 
@@ -84,7 +85,11 @@ install_dsb_courses <- function(courses = "all", force = FALSE) {
 
   ### Copy course files into swirl folder and install
   for (i in 1:n) {
-    sel_course <- grep(courses[i], courses_swc, value = TRUE)
+    if (courses[i] == "Data analysis with R") {
+      sel_course <- "Data_analysis_with_R.swc"
+    } else {
+      sel_course <- grep(courses[i], courses_swc, value = TRUE)
+    }
     copy_and_install(course = sel_course, force = force)
   }
 
