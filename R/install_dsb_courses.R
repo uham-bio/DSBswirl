@@ -44,72 +44,87 @@
 #'
 install_dsb_courses <- function(courses = "all", force = FALSE) {
 
-  current_courses <- c("DSB-01", "DSB-02", "DSB-03", "DSB-04", "DSB-05", "DSB-06", "Data analysis with R")
+  # Ensure swirl is available (no auto-install in non-interactive scripts)
+  if (!requireNamespace("swirl", quietly = TRUE)) {
+    stop("Package 'swirl' is not installed. Please install.packages('swirl') first.")
+  }
+
+  # Available course names
+  available <- c("DSB-01", "DSB-02", "DSB-03", "DSB-04", "DSB-05", "DSB-06", "Data analysis with R")
+
+  # Map display names -> zip filenames that are shipped in inst/Courses
+  zip_map <- c(
+    "DSB-01" = "DSB-01-R_Grundlagen.zip",
+    "DSB-02" = "DSB-02-Datenexploration_mit_R.zip",
+    "DSB-03" = "DSB-03-Datenaufbereitung_oder_per_Anleitung_durchs_Tidyversum.zip",
+    "DSB-04" = "DSB-04-Datenvisualisierung_mit_ggplot2.zip",
+    "DSB-05" = "DSB-05-Handling_spezieller_Datentypen.zip",
+    "DSB-06" = "DSB-06-Fortgeschrittene_R_Programmierung.zip",
+    "Data analysis with R" = "Data_analysis_with_R.zip"
+  )
+
+  # "all" = all German courses
+  if (identical(courses, "all")) courses <- available[1:6]
+
   # Validate course selection
-  if (!all(courses %in% c("all", current_courses))) {
-    stop(paste0("Choose 'all' German courses or provide a single character or vector ",
+  if (!all(courses %in% available)) {
+    stop(paste0("Choose 'all' to get all German courses or provide a single character or vector ",
       "with one of the following courses: ",
       "'DSB-01', 'DSB-02', 'DSB-03', 'DSB-04', 'DSB-05', 'DSB-06', 'Data analysis with R'. ",
       "For more info see the functions' documentation.")
     )
   }
-  if (length(courses) == 1) {
-    if (courses == "all") {
-      courses <- current_courses[1:6]
+
+  # Get source and target paths
+  zip_root <- system.file("courses", package = "DSBswirl", mustWork = TRUE)
+  # copied from swirl (for the get_swirl_course_path() function):
+  get_swirl_courses_dir <- function() {
+    scd <- getOption("swirl_courses_dir")
+    if (is.null(scd)) {
+      file.path(find.package("swirl"), "Courses")
+    }
+    else {
+      scd
     }
   }
-  courses_swc <- c(
-    "DSB-01-R_Grundlagen.swc",
-    "DSB-02-Datenexploration_mit_R.swc",
-    "DSB-03-Datenaufbereitung_oder_per_Anleitung_durchs_Tidyversum.swc",
-    "DSB-04-Datenvisualisierung_mit_ggplot2.swc",
-    "DSB-05-Handling_spezieller_Datentypen.swc",
-    "DSB-06-Fortgeschrittene_R_Programmierung.swc",
-    "Data_analysis_with_R.swc"
-  )
-  n <- length(courses)
+  swirl_courses_dir <- get_swirl_courses_dir()
+  # if (!dir.exists(swirl_courses_dir)) dir.create(swirl_courses_dir,
+  #   recursive = TRUE, showWarnings = FALSE)
 
-  ### Check if swirl is installed
-  swirl_path <- system.file(package = "swirl")
-  if (nchar(swirl_path) == 0) {
-    utils::install.packages("swirl")
-    swirl_path <- system.file(package = "swirl")
-  }
+  ### Unzip, copy and install each course
+  for (nm in courses) {
+    zip_file <- zip_map[[nm]]
+    zip_path <- file.path(zip_root, zip_file)
+    if (!file.exists(zip_path)) stop("Course archive not found: ", zip_path)
 
-  ### Function for copying and installation
-  copy_and_install <- function(course, force) {
-    get_swirl_course_path <- function(){
-      tryCatch(swirl_courses_dir(),
-        error = function(c) {file.path(find.package("swirl"),"Courses")}
-      )
-    }
-    path_dsb <- file.path(find.package("DSBswirl"),"Courses", course)
-    path_swirl <- file.path(get_swirl_course_path(), course)
-    file.copy(from = path_dsb, to = path_swirl, overwrite = TRUE)
-    swirl::install_course(swc_path = path_swirl, force = force)
-    unlink(path_swirl, force = TRUE)
-  }
+    # Unzip to tempdir
+    tmp <- file.path(tempdir(), paste0("dsb_course_", nm, "_",
+      as.integer(runif(1, 1e6, 9e6))))
+    dir.create(tmp, recursive = TRUE, showWarnings = FALSE)
+    utils::unzip(zipfile = zip_path, exdir = tmp)
 
-  ### Copy course files into swirl folder and install
-  for (i in 1:n) {
-    if (courses[i] == "Data analysis with R") {
-      sel_course <- "Data_analysis_with_R.swc"
+    # Extract .swc file
+    contents <- list.files(tmp, all.files = TRUE, recursive = TRUE, include.dirs = TRUE)
+    swc_file <- grep("\\.swc$", contents, value = TRUE)
+
+    # Copy and install file
+    if (length(swc_file) > 0) {
+      swc_full <- file.path(tmp, swc_file[[1]])
+      target_swc <- file.path(swirl_courses_dir, basename(swc_full))
+      file.copy(from = swc_full, to = target_swc, overwrite = TRUE)
+      swirl::install_course(swc_path = target_swc, force = force)
+      # aufräumen: die abgelegte .swc kann weg
+      unlink(target_swc, force = TRUE)
     } else {
-      sel_course <- grep(courses[i], courses_swc, value = TRUE)
+      stop("Archive format not recognized for '", nm,
+        "'. Expecting either a .swc file.")
     }
-    copy_and_install(course = sel_course, force = force)
+    unlink(tmp, recursive = TRUE, force = TRUE)
+
   }
+
+  invisible(courses)
 
 }
 
 
-### Copied from swirl (for the get_swirl_course_path() function):
-swirl_courses_dir <- function() {
-  scd <- getOption("swirl_courses_dir")
-  if (is.null(scd)) {
-    file.path(find.package("swirl"), "Courses")
-  }
-  else {
-    scd
-  }
-}
