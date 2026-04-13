@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# DSBswirl
+# DSBswirl <img src="vignettes/images/dsb_logo.png" align="right" width="150" style="margin-left: 20px"/>
 
 This R package provides the swirl courses, including an installation
 function, developed for the DSB (Data Science in Biology) program within
