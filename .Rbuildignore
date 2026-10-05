@@ -1,3 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
+^vignettes$
+^\.Rhistory$
+^CODE_OF_CONDUCT\.md$
+^LICENSE\.md$

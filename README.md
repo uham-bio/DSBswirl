@@ -3,7 +3,7 @@
 
 # DSBswirl <img src="vignettes/images/dsb_logo.png" align="right" width="150" style="margin-left: 20px"/>
 
-This R package provides the swirl courses, including an installation
+This R package provides the *swirl* courses, including an installation
 function, developed for the DSB (Data Science in Biology) program within
 the Biology Department of the University of Hamburg (UHH).
 
@@ -19,15 +19,15 @@ The following swirl courses (in German) are currently included:
   Datentypen)
 - DSB-06: Advanced R programming (Fortgeschrittene R Programmierung)
 
-There is an additional English swirl course, *Data analysis with R*,
+There is an additional English *swirl* course, *Data analysis with R*,
 covering R basics, data wrangling and visualization with the tidyverse,
 and linear regression modelling.
 
 ## Package installation
 
 ``` r
-if (!require("remotes")) install.packages("remotes")
-remotes::install_github("uham-bio/DSBswirl")
+if (!require("pak")) install.packages("pak")
+pak::pak("uham-bio/DSBswirl")
 ```
 
 ## Course installations
@@ -43,10 +43,15 @@ DSBswirl::install_dsb_courses(courses = "DSB-01")
 DSBswirl::install_dsb_courses(courses = c("DSB-01", "DSB-04", "DSB-05"))
 ```
 
+If you already have an **older version of a course installed**,
+overwrite it with `force = TRUE` - otherwise *swirl* asks for
+confirmation per course and silently keeps the old version if you
+decline:
+
+``` r
+DSBswirl::install_dsb_courses(force = TRUE)
+```
+
 ------------------------------------------------------------------------
 
-<br><br><br> Last Update: 24/09/2025
-
-- Replaced the deprecated ggplot 2 functions `coord_trans()` and
-  `borders()` with the new functions `coord_transform()` (since 4.0.0
-  release) and `annotation_borders()` (since 3.4.0).
+<br><br><br> Last Update: 05/10/2026

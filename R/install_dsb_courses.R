@@ -75,8 +75,9 @@ install_dsb_courses <- function(courses = "all", force = FALSE) {
     )
   }
 
-  # Get source and target paths
-  zip_root <- system.file("courses", package = "DSBswirl", mustWork = TRUE)
+  # Get source and target paths --> folder name must match inst/Courses exactly
+  # (case-sensitive on Linux)
+  zip_root <- system.file("Courses", package = "DSBswirl", mustWork = TRUE)
   # copied from swirl (for the get_swirl_course_path() function):
   get_swirl_courses_dir <- function() {
     scd <- getOption("swirl_courses_dir")
@@ -88,8 +89,11 @@ install_dsb_courses <- function(courses = "all", force = FALSE) {
     }
   }
   swirl_courses_dir <- get_swirl_courses_dir()
-  # if (!dir.exists(swirl_courses_dir)) dir.create(swirl_courses_dir,
-  #   recursive = TRUE, showWarnings = FALSE)
+  # Without this, file.copy() below fails silently if the directory does not
+  # exist (e.g. when options(swirl_courses_dir = ...) has been set manually),
+  # and install_course() then throws an error that is hard to interpret.
+  if (!dir.exists(swirl_courses_dir)) dir.create(swirl_courses_dir,
+    recursive = TRUE, showWarnings = FALSE)
 
   ### Unzip, copy and install each course
   for (nm in courses) {
@@ -97,9 +101,10 @@ install_dsb_courses <- function(courses = "all", force = FALSE) {
     zip_path <- file.path(zip_root, zip_file)
     if (!file.exists(zip_path)) stop("Course archive not found: ", zip_path)
 
-    # Unzip to tempdir
-    tmp <- file.path(tempdir(), paste0("dsb_course_", nm, "_",
-      as.integer(runif(1, 1e6, 9e6))))
+    # Unzip to tempdir. tempfile() statt runif(): this avoids dependencies from
+    # 'stats' (R CMD check NOTE) and is collision free
+    tmp <- tempfile(pattern = paste0("dsb_course_",
+      gsub("[^A-Za-z0-9]", "_", nm), "_"))
     dir.create(tmp, recursive = TRUE, showWarnings = FALSE)
     utils::unzip(zipfile = zip_path, exdir = tmp)
 
@@ -113,7 +118,7 @@ install_dsb_courses <- function(courses = "all", force = FALSE) {
       target_swc <- file.path(swirl_courses_dir, basename(swc_full))
       file.copy(from = swc_full, to = target_swc, overwrite = TRUE)
       swirl::install_course(swc_path = target_swc, force = force)
-      # aufräumen: die abgelegte .swc kann weg
+      # clean up: remove .swc file
       unlink(target_swc, force = TRUE)
     } else {
       stop("Archive format not recognized for '", nm,
